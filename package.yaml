@@ -1,0 +1,98 @@
+name: tonatona-google-server-api
+version: "0.1.0.0"
+category: "Database, Library, Tonatona, Web"
+synopsis: tonatona plugin for google-server-api
+description:
+  Tonatona plugin for [google-server-api](https://hackage.haskell.org/package/google-server-api).
+  This package provides a tonatona plugin to use Google API for server to server applications.
+license: "MIT"
+author: "Kadzuya Okamoto"
+copyright: "2019 Kadzuya Okamoto"
+maintainer: "arow.okamoto+github@gmail.com"
+
+extra-source-files:
+  - README.md
+
+ghc-options: -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints
+default-extensions:
+  - AutoDeriveTypeable
+  - BangPatterns
+  - BinaryLiterals
+  - ConstraintKinds
+  - DataKinds
+  - DefaultSignatures
+  - DeriveDataTypeable
+  - DeriveFoldable
+  - DeriveFunctor
+  - DeriveGeneric
+  - DeriveTraversable
+  - DoAndIfThenElse
+  - EmptyDataDecls
+  - ExistentialQuantification
+  - FlexibleContexts
+  - FlexibleInstances
+  - FunctionalDependencies
+  - GADTs
+  - GeneralizedNewtypeDeriving
+  - InstanceSigs
+  - KindSignatures
+  - LambdaCase
+  - MonadFailDesugaring
+  - MultiParamTypeClasses
+  - MultiWayIf
+  - NamedFieldPuns
+  - NoImplicitPrelude
+  - OverloadedStrings
+  - PartialTypeSignatures
+  - PatternGuards
+  - PolyKinds
+  - RankNTypes
+  - RecordWildCards
+  - ScopedTypeVariables
+  - StandaloneDeriving
+  - Strict
+  - StrictData
+  - TupleSections
+  - TypeFamilies
+  - TypeSynonymInstances
+  - ViewPatterns
+
+dependencies:
+  - base >= 4.7 && < 5
+  - tonalude >= 0.1.1
+  - google-server-api >= 0.3
+  - monad-logger >= 0.3
+  - persistent >= 2.8
+  - persistent-sqlite >= 2.8
+  - resource-pool >= 0.2
+  - servant-client >= 0.13
+  - tonaparser >= 0.1
+  - tonatona >= 0.1
+
+library:
+  source-dirs:
+    - src
+  exposed-modules:
+    - Tonatona.Google
+    - Tonatona.Google.Client
+    - Tonatona.Google.Form
+    - Tonatona.Google.Response
+
+tests:
+  spec:
+    main: "Spec.hs"
+    other-modules: []
+    source-dirs:
+      - test
+    dependencies:
+      - tonatona
+  doctest:
+    main: "DocTest.hs"
+    other-modules: []
+    source-dirs:
+      - test
+    dependencies:
+      - doctest
+      - Glob
+
+github: arowM/tonatona-google-server-api

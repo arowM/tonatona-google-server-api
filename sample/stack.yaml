@@ -1,0 +1,21 @@
+resolver: lts-13.4
+packages:
+  - '.'
+extra-deps:
+  - git: https://github.com/tonatona-project/tonatona
+    commit: bc916ac3bd633075950ac8976282aa7b5c02da4e
+    subdirs:
+      - tonalude
+      - tonaparser
+      - tonatona
+      - tonatona-logger
+      - tonatona-persistent-postgresql
+      - tonatona-persistent-sqlite
+      - tonatona-servant
+  - git: https://github.com/arowM/tonatona-google-server-api
+    commit: a433bcefb77302793455a53616d96aebe34b5fdf
+  - git: https://github.com/arowM/haskell-google-server-api
+    commit: 0.3.0.0
+
+flags: {}
+extra-package-dbs: []

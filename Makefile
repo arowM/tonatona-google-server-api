@@ -2,7 +2,7 @@
 all: build
 
 build:
-	stack build tonatona-db-sqlite
+	stack build tonatona-google-server-api
 
 clean:
 	stack clean
@@ -45,13 +45,13 @@ test:
 
 # Watch for changes.
 watch:
-	stack build --file-watch --fast tonatona-db-sqlite
+	stack build --file-watch --fast tonatona-google-server-api
 
 # Watch for changes while trying to build haddocks
 watch-haddock:
-	stack build --haddock --file-watch --fast tonatona-db-sqlite
+	stack build --haddock --file-watch --fast tonatona-google-server-api
 
 # Watch for changes.
 watch-test: watch-tests
 watch-tests:
-	stack test --file-watch --fast tonatona-db-sqlite
+	stack test --file-watch --fast tonatona-google-server-api

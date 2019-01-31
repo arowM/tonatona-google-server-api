@@ -11,15 +11,12 @@ module Tonatona.Google
 import Tonalude
 
 import qualified Google.Client as Client
-import qualified Google.Form as Form
 import Google.JWT (JWT)
 import qualified Google.JWT as JWT
-import Google.Response (Token)
-import qualified Google.Response as Response
 import Servant.Client (ServantError)
 
 import Tonatona (HasConfig(..), HasParser(..))
-import TonaParser (Parser, (.||), argLong, envVar, liftWith, requiredVal)
+import TonaParser (Parser, (.||), argLong, envVar, requiredVal)
 import Tonatona.Google.Internal
 
 -- | Main function.

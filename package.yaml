@@ -60,7 +60,7 @@ default-extensions:
 dependencies:
   - base >= 4.7 && < 5
   - tonalude >= 0.1.1
-  - google-server-api >= 0.3
+  - google-server-api >= 0.3.1
   - monad-logger >= 0.3
   - persistent >= 2.8
   - persistent-sqlite >= 2.8

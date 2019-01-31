@@ -4,7 +4,8 @@ Module      :  Tonatona.Google.Client
 Define functions to call Google APIs.
 -}
 module Tonatona.Google.Client
-  ( postCalendarEvent
+  ( getCalendarEventList
+  , postCalendarEvent
   , postGmailSend
   ) where
 
@@ -13,6 +14,20 @@ import qualified Google.Client as Client
 import qualified Google.Form as Form
 import qualified Google.Response as Response
 import Tonatona.Google.Internal
+
+
+getCalendarEventList ::
+     Text
+  -> Maybe Bool
+  -> Maybe Form.DateTime
+  -> Maybe Form.DateTime
+  -> Maybe Text-> Dsl env Response.CalendarEventList
+getCalendarEventList calendarId singleEvents timeMin timeMax orderBy = do
+  t <- asks token
+  res <- liftIO $ Client.getCalendarEventList t calendarId singleEvents timeMin timeMax orderBy
+  case res of
+    Left err -> throwM err
+    Right resp -> pure resp
 
 postCalendarEvent :: Form.CalendarEvent -> Dsl env Response.CalendarEvent
 postCalendarEvent event = do

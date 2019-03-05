@@ -2,16 +2,6 @@ resolver: nightly-2019-03-05
 packages:
   - '.'
 extra-deps:
-  - git: https://github.com/tonatona-project/tonatona
-    commit: tonalude-0.1.1.0
-    subdirs:
-      - tonalude
-      - tonaparser
-      - tonatona
-      - tonatona-logger
-      - tonatona-persistent-postgresql
-      - tonatona-persistent-sqlite
-      - tonatona-servant
   - git: https://github.com/arowM/haskell-google-server-api
     commit: 0.3.1.0
 

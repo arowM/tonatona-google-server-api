@@ -1,9 +1,10 @@
+{-# LANGUAGE CPP #-}
 module Tonatona.Google
   ( run
   , Dsl
   , DslBackend
   , Config
-  , ServantError
+  , ClientError
   , JWT
   , JWT.Scope(..)
   ) where
@@ -13,16 +14,24 @@ import Tonalude
 import qualified Google.Client as Client
 import Google.JWT (JWT)
 import qualified Google.JWT as JWT
+#if MIN_VERSION_servant_client(0, 16, 0)
+import Servant.Client (ClientError)
+#else
 import Servant.Client (ServantError)
+#endif
 
 import Tonatona (HasConfig(..), HasParser(..))
 import TonaParser (Parser, (.||), argLong, envVar, requiredVal)
 import Tonatona.Google.Internal
 
+#if !MIN_VERSION_servant_client(0, 16, 0)
+type ClientError = ServantError
+#endif
+
 -- | Main function.
 run ::
      (HasConfig env Config)
-  => (ServantError -> RIO env a)
+  => (ClientError -> RIO env a)
   -- ^ Error handler
   -> [JWT.Scope]
   -> Dsl env a

@@ -77,6 +77,7 @@ library:
     - Tonatona.Google.Client
     - Tonatona.Google.Form
     - Tonatona.Google.Response
+    - Tonatona.Google.Type
 
 tests:
   spec:

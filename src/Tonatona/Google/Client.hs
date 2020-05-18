@@ -7,6 +7,9 @@ module Tonatona.Google.Client
   ( getCalendarEventList
   , postCalendarEvent
   , postGmailSend
+  , getDriveFileList
+  , createDriveFileMultipart
+  , downloadDriveFile
   ) where
 
 import Tonalude
@@ -41,6 +44,36 @@ postGmailSend :: Form.Email -> Dsl env Response.GmailSend
 postGmailSend email = do
   t <- asks token
   res <- liftIO $ Client.postGmailSend t email
+  case res of
+    Left err -> throwM err
+    Right resp -> pure resp
+
+getDriveFileList ::
+     Form.GetFileParams
+  -> Dsl env Response.FileList
+getDriveFileList params = do
+  t <- asks token
+  res <- liftIO $ Client.getDriveFileList t params
+  case res of
+    Left err -> throwM err
+    Right resp -> pure resp
+
+createDriveFileMultipart ::
+     Form.MultipartBody
+  -> Dsl env Response.FileResource
+createDriveFileMultipart body = do
+  t <- asks token
+  res <- liftIO $ Client.createDriveFileMultipart t body
+  case res of
+    Left err -> throwM err
+    Right resp -> pure resp
+
+downloadDriveFile ::
+     Form.DownloadFileParams
+  -> Dsl env Response.MediaContent
+downloadDriveFile params = do
+  t <- asks token
+  res <- liftIO $ Client.downloadDriveFile t params
   case res of
     Left err -> throwM err
     Right resp -> pure resp

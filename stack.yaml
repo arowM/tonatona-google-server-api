@@ -3,7 +3,7 @@ packages:
   - '.'
 extra-deps:
   - git: https://github.com/tonatona-project/tonatona
-    commit: tonalude-0.1.1.0
+    commit: 90fa2abcfcc7077c2bb3bdf04a85752aab19725e
     subdirs:
       - tonalude
       - tonaparser
@@ -12,8 +12,8 @@ extra-deps:
       - tonatona-persistent-postgresql
       - tonatona-persistent-sqlite
       - tonatona-servant
-  - git: https://github.com/arowM/haskell-google-server-api
-    commit: 0.3.1.1
+  - git: https://github.com/arowm/haskell-google-server-api
+    commit: 243bed6e2fac02c00027c142087af6185e14de10
 
 flags: {}
 extra-package-dbs: []

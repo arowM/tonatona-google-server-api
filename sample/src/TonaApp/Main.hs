@@ -6,9 +6,10 @@ import Tonatona (HasConfig(..), HasParser(..))
 import qualified Tonatona.Logger as TonaLogger
 import qualified Tonatona.Google as TonaGoogle
 import Tonatona.Google (Scope(..))
-import Tonatona.Google.Client (postGmailSend)
-import Tonatona.Google.Form (Email(..))
+import Tonatona.Google.Client (createDriveFileMultipart, getDriveFileList, postGmailSend)
+import Tonatona.Google.Form (Email(..), GetFileParams(..), MultipartBody(..))
 import Tonatona.Google.Response (GmailSend(..))
+import Tonatona.Google.Type (MediaContent(..), MediaType(..), Metadata(..), QueryString(..), Order(..), SortKey(..))
 
 
 
@@ -18,6 +19,16 @@ import Tonatona.Google.Response (GmailSend(..))
 app :: RIO Config ()
 app = do
   TonaLogger.logInfo $ display ("This is a sample project for tonatona-google-server-api" :: Text)
+  -- Choose the function to run depending on the scopes granted to your service key.
+  -- postGmailSendSample
+  createDriveFileSample
+
+errorHandler :: TonaGoogle.ClientError -> RIO Config ()
+errorHandler err =
+  TonaLogger.logError $ display $ "Encount error on google-server-api: " <> tshow err
+
+postGmailSendSample :: RIO Config ()
+postGmailSendSample =
   TonaGoogle.run errorHandler [ScopeGmailSend] $ do
     GmailSend sentId <- postGmailSend $ Email
       { to = "to@example.com"
@@ -29,10 +40,28 @@ app = do
       }
     lift $ TonaLogger.logDebug $ display ("Successfully sent by gmail: " <> sentId)
 
+createDriveFileSample :: RIO Config ()
+createDriveFileSample =
+  TonaGoogle.run errorHandler [ScopeDriveFile, ScopeDriveMetadataRead] $ do
+    fileResource <- createDriveFileMultipart $
+      MultipartBody
+        { metadata = Metadata
+            (Just "tonatona-sample")
+            (Just $ MediaType "application/vnd.google-apps.document")
+            Nothing
+        , mediaType = MediaType "text/plain"
+        , mediaContent = MediaContent "This is a sample file created by tonatona-google-server-api."
+        }
+    lift $ TonaLogger.logDebug $ display ("The file has been successfully created: " <> tshow fileResource)
 
-errorHandler :: TonaGoogle.ServantError -> RIO Config ()
-errorHandler err =
-  TonaLogger.logError $ display $ "Encount error on google-server-api: " <> tshow err
+    list <- getDriveFileList $
+      GetFileParams
+        { query = Just $ QueryString "modifiedTime > '2012-06-04T12:00:00'"
+        , orderBy = Just [ Desc ModifiedTime
+                         , Asc Name
+                         ]
+        }
+    lift $ TonaLogger.logDebug $ display ("File list: " <> tshow list)
 
 
 

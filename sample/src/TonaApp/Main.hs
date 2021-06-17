@@ -49,7 +49,7 @@ getCalendarSample =
 postGmailSendSample :: RIO Config ()
 postGmailSendSample =
   TonaGoogle.run errorHandler [ScopeGmailSend] $ do
-    GmailSend sentId <- postGmailSend $ Email
+    GmailSend sentId <- postGmailSend Email
       { to = "to@example.com"
       , from = "from@example.com"
       , replyTo = Nothing
@@ -62,7 +62,7 @@ postGmailSendSample =
 createDriveFileSample :: RIO Config ()
 createDriveFileSample =
   TonaGoogle.run errorHandler [ScopeDriveFile, ScopeDriveMetadataRead] $ do
-    fileResource <- createDriveFileMultipart $
+    fileResource <- createDriveFileMultipart
       MultipartBody
         { metadata = Metadata
             (Just "tonatona-sample")
@@ -73,7 +73,7 @@ createDriveFileSample =
         }
     lift $ TonaLogger.logDebug $ display ("The file has been successfully created: " <> tshow fileResource)
 
-    list <- getDriveFileList $
+    list <- getDriveFileList
       GetFileParams
         { query = Just $ QueryString "modifiedTime > '2012-06-04T12:00:00'"
         , orderBy = Just [ Desc ModifiedTime

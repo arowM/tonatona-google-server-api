@@ -6,11 +6,13 @@ import Tonatona (HasConfig(..), HasParser(..))
 import qualified Tonatona.Logger as TonaLogger
 import qualified Tonatona.Google as TonaGoogle
 import Tonatona.Google (Scope(..))
-import Tonatona.Google.Client (createDriveFileMultipart, getDriveFileList, postGmailSend)
-import Tonatona.Google.Form (Email(..), GetFileParams(..), MultipartBody(..))
+import Tonatona.Google.Client (createDriveFileMultipart, getDriveFileList, postGmailSend, getCalendarEventList)
+import Tonatona.Google.Form (DateTime(..), Email(..), GetFileParams(..), MultipartBody(..))
 import Tonatona.Google.Response (GmailSend(..))
 import Tonatona.Google.Type (MediaContent(..), MediaType(..), Metadata(..), QueryString(..), Order(..), SortKey(..))
-
+import Data.Time.LocalTime(zonedTimeToUTC)
+import Data.Time.Calendar (addDays)
+import qualified TonaApp.JST as JST (getCurrentDay, midnight)
 
 
 -- App
@@ -21,16 +23,33 @@ app = do
   TonaLogger.logInfo $ display ("This is a sample project for tonatona-google-server-api" :: Text)
   -- Choose the function to run depending on the scopes granted to your service key.
   -- postGmailSendSample
-  createDriveFileSample
+  -- createDriveFileSample
+  getCalendarSample
 
 errorHandler :: TonaGoogle.ClientError -> RIO Config ()
 errorHandler err =
   TonaLogger.logError $ display $ "Encount error on google-server-api: " <> tshow err
 
+getCalendarSample :: RIO Config ()
+getCalendarSample =
+  TonaGoogle.run errorHandler [ScopeCalendarFull] $ do
+    today <- liftIO JST.getCurrentDay
+    let
+      calendarId = "id-example"
+      since = 1
+      margin = 7
+      margin' = 2 * margin + 2 -- `margin` + (土日などの除外する日数) を超える日数
+      singleEvents = pure True
+      orderBy = pure "startTime"
+      timeMin = Just . DateTime . zonedTimeToUTC . JST.midnight $ addDays since today
+      timeMax = Just . DateTime . zonedTimeToUTC . JST.midnight $ addDays (since + margin') today
+    calendarEventList <- getCalendarEventList calendarId singleEvents timeMin timeMax orderBy
+    lift $ TonaLogger.logDebug $ display $ tshow calendarEventList
+
 postGmailSendSample :: RIO Config ()
 postGmailSendSample =
   TonaGoogle.run errorHandler [ScopeGmailSend] $ do
-    GmailSend sentId <- postGmailSend $ Email
+    GmailSend sentId <- postGmailSend Email
       { to = "to@example.com"
       , from = "from@example.com"
       , replyTo = Nothing
@@ -43,7 +62,7 @@ postGmailSendSample =
 createDriveFileSample :: RIO Config ()
 createDriveFileSample =
   TonaGoogle.run errorHandler [ScopeDriveFile, ScopeDriveMetadataRead] $ do
-    fileResource <- createDriveFileMultipart $
+    fileResource <- createDriveFileMultipart
       MultipartBody
         { metadata = Metadata
             (Just "tonatona-sample")
@@ -54,7 +73,7 @@ createDriveFileSample =
         }
     lift $ TonaLogger.logDebug $ display ("The file has been successfully created: " <> tshow fileResource)
 
-    list <- getDriveFileList $
+    list <- getDriveFileList
       GetFileParams
         { query = Just $ QueryString "modifiedTime > '2012-06-04T12:00:00'"
         , orderBy = Just [ Desc ModifiedTime

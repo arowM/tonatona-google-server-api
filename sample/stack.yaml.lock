@@ -6,9 +6,6 @@
 packages:
 - completed:
     subdir: tonalude
-    cabal-file:
-      size: 4438
-      sha256: 795494edf4be821dd234c1fa703939a56cf032727bdfdba73f34fd9aae2d914d
     name: tonalude
     version: 0.1.1.0
     git: https://github.com/tonatona-project/tonatona
@@ -22,9 +19,6 @@ packages:
     commit: bc916ac3bd633075950ac8976282aa7b5c02da4e
 - completed:
     subdir: tonaparser
-    cabal-file:
-      size: 5133
-      sha256: f265c6a384a1bbbbe0390db24102a6daa9871ac8e2b073e5c9443fc9d6006efc
     name: tonaparser
     version: 0.1.0.0
     git: https://github.com/tonatona-project/tonatona
@@ -38,9 +32,6 @@ packages:
     commit: bc916ac3bd633075950ac8976282aa7b5c02da4e
 - completed:
     subdir: tonatona
-    cabal-file:
-      size: 4145
-      sha256: 7818cb51a1fdb8920f0b6dc5442a6eca5f7cb82d2e94cabc0cd607e0c58b314a
     name: tonatona
     version: 0.1.0.0
     git: https://github.com/tonatona-project/tonatona
@@ -54,9 +45,6 @@ packages:
     commit: bc916ac3bd633075950ac8976282aa7b5c02da4e
 - completed:
     subdir: tonatona-logger
-    cabal-file:
-      size: 3921
-      sha256: 42f9b28b7f659cc4da7c823c5f58607cb0a9152a14f975b4e4690be39f4b74cb
     name: tonatona-logger
     version: 0.2.0.0
     git: https://github.com/tonatona-project/tonatona
@@ -70,9 +58,6 @@ packages:
     commit: bc916ac3bd633075950ac8976282aa7b5c02da4e
 - completed:
     subdir: tonatona-persistent-postgresql
-    cabal-file:
-      size: 4471
-      sha256: 125571661ae2afceec1b2cf809ad8230a81420631e577164c75f376127db056f
     name: tonatona-persistent-postgresql
     version: 0.1.0.0
     git: https://github.com/tonatona-project/tonatona
@@ -86,9 +71,6 @@ packages:
     commit: bc916ac3bd633075950ac8976282aa7b5c02da4e
 - completed:
     subdir: tonatona-persistent-sqlite
-    cabal-file:
-      size: 4431
-      sha256: 59e901a4934f67434b2f6eaad8cecadfe46ec8d84dcebc031a2a5a5ce4345d7f
     name: tonatona-persistent-sqlite
     version: 0.1.0.0
     git: https://github.com/tonatona-project/tonatona
@@ -102,9 +84,6 @@ packages:
     commit: bc916ac3bd633075950ac8976282aa7b5c02da4e
 - completed:
     subdir: tonatona-servant
-    cabal-file:
-      size: 4600
-      sha256: 729399e416ed0166a93276563ac91fc58ea19beb301739dc04e5ebb629703242
     name: tonatona-servant
     version: 0.1.0.0
     git: https://github.com/tonatona-project/tonatona
@@ -117,33 +96,27 @@ packages:
     git: https://github.com/tonatona-project/tonatona
     commit: bc916ac3bd633075950ac8976282aa7b5c02da4e
 - completed:
-    cabal-file:
-      size: 4783
-      sha256: 16dc15fcfcd1eea5b57f976f437d906446179ee7b8654165318eb817e1db92a5
     name: tonatona-google-server-api
     version: 0.1.3.0
     git: https://github.com/arowM/tonatona-google-server-api
     pantry-tree:
-      size: 1547
-      sha256: 9cdf65e34e11473a2c2183df74cf048ca3050b5e5928842c7e8673b5deb83859
-    commit: 9b814f78cdabb6bbb6a4acf91a9de91f0bdbf5a4
+      size: 1749
+      sha256: ef42a9212d335ffe4337bc36364972e136c59f1561fd18af19b12f02f8f2014a
+    commit: 1d1725dc77fb74ee3a3901ee7f29a306999575a4
   original:
     git: https://github.com/arowM/tonatona-google-server-api
-    commit: 9b814f78cdabb6bbb6a4acf91a9de91f0bdbf5a4
+    commit: 1d1725dc77fb74ee3a3901ee7f29a306999575a4
 - completed:
-    cabal-file:
-      size: 2631
-      sha256: d6a1dea2bbd46c795565ba72f5a483b445b7e09295f3c54ccf4f2dd0b2873c5a
     name: google-server-api
-    version: 0.3.2.1
+    version: 0.4.0.0
     git: https://github.com/arowM/haskell-google-server-api
     pantry-tree:
-      size: 750
-      sha256: c559e3343ce40edd7805fc1e6370f251eb73b8582c7be0099bfc7745f1478fc2
-    commit: 243bed6e2fac02c00027c142087af6185e14de10
+      size: 873
+      sha256: 39983bcc77cca2382635a2be83661552f86f835326a3dcb30e1d43404cb78341
+    commit: 324a1de38ee14c238d8de358b9d0f42ff6be6800
   original:
     git: https://github.com/arowM/haskell-google-server-api
-    commit: 243bed6e2fac02c00027c142087af6185e14de10
+    commit: 324a1de38ee14c238d8de358b9d0f42ff6be6800
 snapshots:
 - completed:
     size: 494984

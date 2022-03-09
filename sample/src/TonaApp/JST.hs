@@ -1,4 +1,4 @@
-module TonaApp.JST (getCurrentDay, midnight) where
+module TonaApp.JST (getCurrentDay, midnight, zonedTime) where
 
 import Data.Fixed (Pico)
 import Data.Time.Calendar (Day (..))

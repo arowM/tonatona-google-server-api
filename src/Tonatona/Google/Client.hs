@@ -24,10 +24,21 @@ getCalendarEventList ::
   -> Maybe Bool
   -> Maybe Form.DateTime
   -> Maybe Form.DateTime
-  -> Maybe Text-> Dsl env Response.CalendarEventList
-getCalendarEventList calendarId singleEvents timeMin timeMax orderBy = do
+  -> Maybe Text
+  -> [Form.ExtendedProperty] -- ^ private extended properties
+  -> [Form.ExtendedProperty] -- ^ shared extended properties
+  -> Dsl env Response.CalendarEventList
+getCalendarEventList calendarId singleEvents timeMin timeMax orderBy privateExtendedProperty sharedExtendedProperty = do
   t <- asks token
-  res <- liftIO $ Client.getCalendarEventList t calendarId singleEvents timeMin timeMax orderBy
+  res <- liftIO $ Client.getCalendarEventList
+    t
+    calendarId
+    singleEvents
+    timeMin
+    timeMax
+    orderBy
+    privateExtendedProperty
+    sharedExtendedProperty
   case res of
     Left err -> throwM err
     Right resp -> pure resp

@@ -6,13 +6,14 @@ import Tonatona (HasConfig(..), HasParser(..))
 import qualified Tonatona.Logger as TonaLogger
 import qualified Tonatona.Google as TonaGoogle
 import Tonatona.Google (Scope(..))
-import Tonatona.Google.Client (createDriveFileMultipart, getDriveFileList, postGmailSend, getCalendarEventList)
-import Tonatona.Google.Form (DateTime(..), Email(..), GetFileParams(..), MultipartBody(..))
+import Tonatona.Google.Client (createDriveFileMultipart, getDriveFileList, postGmailSend, getCalendarEventList, postCalendarEvent)
+import Tonatona.Google.Form (Account(..), DateTime(..), Email(..), GetFileParams(..), MultipartBody(..), CalendarEvent(..), ExtendedProperty(..), ExtendedProperties(..))
 import Tonatona.Google.Response (GmailSend(..))
 import Tonatona.Google.Type (MediaContent(..), MediaType(..), Metadata(..), QueryString(..), Order(..), SortKey(..))
-import Data.Time.LocalTime(zonedTimeToUTC)
+import Data.Time.LocalTime (zonedTimeToUTC)
 import Data.Time.Calendar (addDays)
-import qualified TonaApp.JST as JST (getCurrentDay, midnight)
+import qualified TonaApp.JST as JST
+import qualified Data.HashMap.Strict as HashMap
 
 
 -- App
@@ -24,26 +25,65 @@ app = do
   -- Choose the function to run depending on the scopes granted to your service key.
   -- postGmailSendSample
   -- createDriveFileSample
+  -- createCalendarEventSample
   getCalendarSample
 
 errorHandler :: TonaGoogle.ClientError -> RIO Config ()
 errorHandler err =
   TonaLogger.logError $ display $ "Encount error on google-server-api: " <> tshow err
 
+createCalendarEventSample :: RIO Config ()
+createCalendarEventSample =
+  TonaGoogle.run errorHandler [ScopeCalendarFull] $ do
+    today <- liftIO JST.getCurrentDay
+    let
+      gmail = "example@gmail.com"
+      start = DateTime . zonedTimeToUTC $ JST.zonedTime today 9 0 0
+      end = DateTime . zonedTimeToUTC $ JST.zonedTime today 10 0 0
+      privateExtendedProperties =
+        HashMap.fromList
+          [ ("pr", "baz")
+          ]
+      sharedExtendedProperties =
+        HashMap.fromList
+          [ ("sh", "bar")
+          ]
+      extendedProperties = ExtendedProperties
+        { private = privateExtendedProperties
+        , shared = sharedExtendedProperties
+        }
+      form =
+        CalendarEvent
+          { creator = Account gmail
+          , attendees = [Account gmail]
+          , summary = "tonatona-google-server-api postCalenarEvent sample"
+          , description = ""
+          , start = start
+          , end = end
+          , extendedProperties = Just extendedProperties
+          }
+    calendarEvent <- postCalendarEvent form
+    lift $ TonaLogger.logDebug $ display $ tshow calendarEvent
+
 getCalendarSample :: RIO Config ()
 getCalendarSample =
   TonaGoogle.run errorHandler [ScopeCalendarFull] $ do
     today <- liftIO JST.getCurrentDay
     let
-      calendarId = "id-example"
-      since = 1
+      calendarId = "example@gmail.com"
+      since = 0
       margin = 7
       margin' = 2 * margin + 2 -- `margin` + (土日などの除外する日数) を超える日数
       singleEvents = pure True
       orderBy = pure "startTime"
       timeMin = Just . DateTime . zonedTimeToUTC . JST.midnight $ addDays since today
       timeMax = Just . DateTime . zonedTimeToUTC . JST.midnight $ addDays (since + margin') today
-    calendarEventList <- getCalendarEventList calendarId singleEvents timeMin timeMax orderBy
+      privateExtendedProperties =
+        []
+      sharedExtendedProperties =
+        [ ExtendedProperty ("sh", "bar")
+        ]
+    calendarEventList <- getCalendarEventList calendarId singleEvents timeMin timeMax orderBy privateExtendedProperties sharedExtendedProperties
     lift $ TonaLogger.logDebug $ display $ tshow calendarEventList
 
 postGmailSendSample :: RIO Config ()

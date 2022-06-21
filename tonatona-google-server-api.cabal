@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 56633aee31ba2263f6cfaf4ce2de00cdb202015bb912d3344ed999b6eda7de7d
+-- hash: d4a339a29c0955beaf4a035145a653f08e37e3c5f279403eec58712c2e5ac1ad
 
 name:           tonatona-google-server-api
-version:        0.2.0.0
+version:        0.3.0.0
 synopsis:       tonatona plugin for google-server-api
 description:    Tonatona plugin for [google-server-api](https://hackage.haskell.org/package/google-server-api). This package provides a tonatona plugin to use Google API for server to server applications.
 category:       Database, Library, Tonatona, Web
